@@ -1,12 +1,14 @@
 "use client"
 
-import { store } from './redux/store'
+import { RootState, store, useAppDispatch } from './redux/store'
 import { Provider } from 'react-redux';
 
 import Image from 'next/image'
 import Main from './components/Main/Main'
 
 export default function Home() {
+  
+
   return (
     <div>
       <Provider store={store}>
