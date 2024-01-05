@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,6 @@ import ActivityList from '../ActivityList';
 type Props = {}
 
 const Main = (props: Props) => {
-
   const dispatch = useAppDispatch();
   const activities = useSelector((state: RootState) => state.activity.activity)
 

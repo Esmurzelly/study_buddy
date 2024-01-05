@@ -9,8 +9,8 @@ type Props = {
 const DeleteButon = ({ id }: Props) => {
   const dispatch = useAppDispatch();
 
-  const handleDeleteActivity = () => {
-    dispatch(deleteActivities(id));
+  const handleDeleteActivity = async () => {
+    await dispatch(deleteActivities(id));
     dispatch(fetchActivities());
   }
 

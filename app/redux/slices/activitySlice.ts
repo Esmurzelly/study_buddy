@@ -23,6 +23,14 @@ export const fetchActivities = createAsyncThunk(
     }
 )
 
+export const uploadActivity = createAsyncThunk(
+    'activity/uploadActivity',
+    async (activityObj: IActivity) => {
+        const { data } = await axios.post<IActivity[]>(`/api/activity/`, activityObj);
+        return data;
+    }
+)
+
 export const deleteActivities = createAsyncThunk(
     'activity/deleteActivities',
     async (id: string) => {
@@ -31,7 +39,7 @@ export const deleteActivities = createAsyncThunk(
     }
 )
 
-export const counterSlice = createSlice({
+export const activitySlice = createSlice({
     name: 'activity',
     initialState,
     reducers: {
@@ -56,6 +64,21 @@ export const counterSlice = createSlice({
             state.error = 'fetchActivities.rejected error'
             state.activity = []
         });
+
+
+        builder.addCase(uploadActivity.pending, (state) => {
+            state.loading = true
+            state.activity = []
+        });
+        builder.addCase(uploadActivity.fulfilled, (state, action) => {
+            state.activity = state.activity.concat(action.payload);
+            state.loading = false;
+        });
+        builder.addCase(uploadActivity.rejected, (state, action) => {
+            state.loading = false;
+            state.error = String(action.error.message);
+            state.activity = []
+        });
         
 
         builder.addCase(deleteActivities.pending, (state) => {
@@ -75,5 +98,5 @@ export const counterSlice = createSlice({
     }
 });
 
-export const { setActivity } = counterSlice.actions;
-export default counterSlice.reducer;
+export const { setActivity } = activitySlice.actions;
+export default activitySlice.reducer;

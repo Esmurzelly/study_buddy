@@ -7,9 +7,11 @@ export interface IActivity {
     date: string;
     dateList: any[];
     likes: number;
+    dislikes: number;
     comments: InputComment[]; 
     createdAt?: Date; 
     updatedAt?: Date;
+    userId?: string
 }
 
 export interface InputComment {

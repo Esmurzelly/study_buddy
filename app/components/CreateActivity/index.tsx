@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchActivities } from '@/app/redux/slices/activitySlice';
+import { fetchActivities, uploadActivity } from '@/app/redux/slices/activitySlice';
 import { RootState, useAppDispatch } from '@/app/redux/store';
 import { IActivity } from '@/app/types/types';
 
@@ -37,14 +37,8 @@ const CreateActivity = (props: Props) => {
     };
 
     try {
-      const res = await axios.post('/api/activity', activity);
-
-      if (res.data.error) console.log('res.data.error', res.data.error);
-
-      if (!res.data.error) {
-        console.log('well done');
-        dispatch(fetchActivities());
-      }
+      await dispatch(uploadActivity(activity))
+      dispatch(fetchActivities());
     } catch (error) {
       console.log('error client in CreateActivity', error);
     }

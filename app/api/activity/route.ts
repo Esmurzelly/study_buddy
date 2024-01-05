@@ -12,7 +12,7 @@ export async function POST(req: Response) {
             return NextResponse.json({ error: "Unauthorized", status: 401 });
         };
 
-        const { title, description, city, image, date, dateList, likes, comments, createdAt, updatedAt }: IActivity = await req.json();
+        const { title, description, city, image, date, dateList, likes, dislikes, comments, createdAt, updatedAt }: IActivity = await req.json();
 
         if(!title || !description || !city) {
             return NextResponse.json({ error: "Missing fields", status: 400 })
@@ -28,6 +28,7 @@ export async function POST(req: Response) {
                 date,
                 dateList, 
                 likes, 
+                dislikes,
                 comments: {
                     create: comments.map((comment: InputComment) => ({
                         content: comment.content,
