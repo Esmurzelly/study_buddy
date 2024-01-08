@@ -7,6 +7,8 @@ import axios from 'axios'
 
 import { IActivity } from '@/app/types/types'
 import { HandThumbUpIcon, HandThumbDownIcon } from '@heroicons/react/24/solid'
+import { useUser } from '@clerk/nextjs'
+import DeleteButon from '@/app/components/DeleteButton'
 
 type Props = {}
 
@@ -14,6 +16,7 @@ const ActivityDetails = (props: Props) => {
     const router = useRouter();
     const id = usePathname().split('/activities/')[1];
     const [activityDetail, setActivityDetail] = useState<IActivity>();
+    const { user } = useUser();
 
     const handleGetInfo = async () => {
         try {
@@ -53,8 +56,6 @@ const ActivityDetails = (props: Props) => {
         }
       };
 
-      console.log('activityDetail', activityDetail)
-
     if(!activityDetail) {
         return <h1>Loading...</h1>
     }
@@ -64,15 +65,17 @@ const ActivityDetails = (props: Props) => {
         <h1>Activity Detail Page: {id}</h1>
         <p>title: {activityDetail?.title}</p>
         <p>description: {activityDetail?.description}</p>
+        {activityDetail.image && <img width={200} src={activityDetail?.image || undefined} alt="image" />}
         <p>likes: {activityDetail?.likes}</p>
+        <p>dislikes: {activityDetail?.dislikes}</p>
         <p>date: {activityDetail?.date}</p>
         <p>userId: {activityDetail?.userId}</p>
 
         <div className='flex items-center gap-3'>
-            <HandThumbUpIcon onClick={handleLike} className='w-8' />
-
+          <HandThumbUpIcon onClick={handleLike} className='w-8' />
           <HandThumbDownIcon onClick={handleDislike} className='w-8' />
         </div>
+        {activityDetail.userId === user?.id && (<DeleteButon id={id} />)}
         <button onClick={() => router.back()}>Back</button>
     </div>
   )

@@ -59,61 +59,6 @@ export async function GET(req: Response, { params }: Props) {
     }
 };
 
-// export async function PUT(
-//     req: Request, { params }: Props
-//     //req: NextApiRequest, res: NextApiResponse
-//     ) {
-//     const {
-//         method,
-//     } = req;
-//     const { id } = params;
-
-
-//     console.log('id server for like', id)
-//     console.log('method server for like', method)
-
-//     if(method !== "PUT") {
-//         return NextResponse.json({ message: "Unsupported method" })
-//     };
-
-//     try {
-//         const activity = await prisma.activity.findUnique({
-//             where: {
-//                 id: String(id),
-//             },
-//         });
-
-//         console.log('req?.body', req?.body)
-
-//         if (!activity) {
-//             return NextResponse.json({ message: 'Activity not found' });
-//           }
-
-//         if(req?.body?.action === "like") {
-//             activity.likes += 1;
-//         } else if (req?.body?.action === "dislike") {
-//             activity.likes -= 1;
-//         } else {
-//             return NextResponse.json({ message: 'Invalid action' });
-//         };
-
-//         const updatedActivity = await prisma.activity.update({
-//             where: {
-//                 id: String(id),
-//             },
-//             data: {
-//                 likes: activity.likes,
-//                 dislikes: activity.dislikes,
-//             },
-//         });
-
-//         return NextResponse.json({ activity: updatedActivity });
-//     } catch (error) {
-//         console.error('Error managing likes/dislikes:', error);
-//         return NextResponse.json({ message: 'Internal server error' });
-//     }
-// }
-
 export async function PUT(req: any, { params }: Props) {
     let parsedReqBody = await new Response(req.body).json();
 
@@ -139,7 +84,7 @@ export async function PUT(req: any, { params }: Props) {
             if (parsedReqBody.data.action == 'like') {
                 activity.likes += 1;
               } else if (parsedReqBody.data.action == 'dislike') {
-                activity.likes -= 1;
+                activity.dislikes += 1;
               } else {
                 return NextResponse.json({ message: 'Invalid action' });
               }

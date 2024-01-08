@@ -7,16 +7,7 @@ import { HandThumbUpIcon, HandThumbDownIcon } from '@heroicons/react/24/solid'
 
 
 const ActivityTab = ({ id, city, comments, date, dateList, description, image, likes, dislikes, title, createdAt, updatedAt }: IActivity) => {
-  // const [activity, setActivity] = useState<IActivity | null>(null);
 
-  // const handleGetInfo = async (id: string | undefined) => {
-  //   try {
-  //     const {data} = await axios.get(`/api/activity/${id}`);
-  //     console.log('response', data)
-  //   } catch (error) {
-  //     console.log('fetch the current activity error', error);
-  //   }
-  // };
 
   return (
     <div className='w-full border border-red-700 p-3'>
@@ -25,6 +16,7 @@ const ActivityTab = ({ id, city, comments, date, dateList, description, image, l
         <li>title click: {title}</li>
         <li>description: {description}</li>
         <li>city: {city}</li>
+        {image && <img width={200} src={image} alt='image' />}
         <li>likes: {likes}</li>
         <li>dislikes: {dislikes}</li>
         <li>date: {date}</li>
@@ -32,7 +24,7 @@ const ActivityTab = ({ id, city, comments, date, dateList, description, image, l
       </ul>
 
       <div className='w-full flex flex-row items-center justify-between'>
-        {id && <DeleteButton id={id} />}
+        {/* {id && <DeleteButton id={id} />} */}
 
         {/* <div className='flex items-center gap-3'>
           <HandThumbUpIcon onClick={() => console.log('like up')} className='w-8' />

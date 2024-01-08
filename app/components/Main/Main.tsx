@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,14 +9,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchActivities } from '@/app/redux/slices/activitySlice';
 import { RootState, useAppDispatch } from '@/app/redux/store';
 import CreateActivity from '../CreateActivity';
-import ActivityTab from '../ActivityTab';
 import ActivityList from '../ActivityList';
+import Link from 'next/link';
+import Select, { components } from 'react-select';
 
 type Props = {}
 
 const Main = (props: Props) => {
   const dispatch = useAppDispatch();
-  const activities = useSelector((state: RootState) => state.activity.activity)
+  const activities = useSelector((state: RootState) => state.activity.activity);
 
   const getActivities = () => {
     dispatch(fetchActivities());
@@ -31,11 +32,14 @@ const Main = (props: Props) => {
   return (
     <div>
       Main Content 
-      <UserButton afterSignOutUrl="/"/>
+      <UserButton afterSignOutUrl="/signin"/>
       <hr />
 
       <CreateActivity />
-      <ActivityList  />
+      <Link href={'/myownactivities'}>My Activities</Link>
+      <br />
+      <Link href={'/activities'}>All Activities</Link>
+      <ActivityList />
     </div>
   )
 }

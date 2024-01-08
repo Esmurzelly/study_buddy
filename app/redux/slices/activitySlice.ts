@@ -7,19 +7,21 @@ interface ActivityState {
     activity: IActivity[];
     loading: boolean;
     error: string | null;
+    selectedCity: string | null;
 };
 
 const initialState: ActivityState = {
     activity: [],
     loading: false,
     error: null,
+    selectedCity: null
 }
 
 export const fetchActivities = createAsyncThunk(
     'activity/fetchActivities',
     async () => {
         const { data } = await axios.get<IActivity[]>(`/api/activity`);
-        return data;
+        return data.reverse();
     }
 )
 
@@ -43,11 +45,11 @@ export const activitySlice = createSlice({
     name: 'activity',
     initialState,
     reducers: {
-        setActivity: (state) => {
-            try {
-            } catch (error) {
-                console.log('redux issue', error);
-            }
+        setSelectedCity: (state, action) => {
+            state.selectedCity = action.payload
+        },
+        clearSelectedCity: (state) => {
+            state.selectedCity = null;
         }
     },
     extraReducers: (builder) => {
@@ -98,5 +100,5 @@ export const activitySlice = createSlice({
     }
 });
 
-export const { setActivity } = activitySlice.actions;
+export const { setSelectedCity, clearSelectedCity } = activitySlice.actions;
 export default activitySlice.reducer;

@@ -21,6 +21,24 @@ const CreateActivity = (props: Props) => {
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
 
+  const handleImageChange = (e: any) => {
+    const file = e.target.files[0];
+    setImage(file);
+
+    const reader = new FileReader();
+
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+        reader.readAsDataURL(selectedFile);
+    }
+
+    reader.onload = (readerEvent: any) => {
+        if (selectedFile.type.includes("image")) {
+          setImage(readerEvent.target.result);
+        }
+    };
+};
+
 
   const handleFomSubmit = async (e: any) => {
     e.preventDefault();
@@ -32,7 +50,8 @@ const CreateActivity = (props: Props) => {
         image,
         date,
         dateList,
-        likes,
+        likes: 0,
+        dislikes: 0,
         comments,
     };
 
@@ -41,6 +60,7 @@ const CreateActivity = (props: Props) => {
       dispatch(fetchActivities());
     } catch (error) {
       console.log('error client in CreateActivity', error);
+      dispatch(fetchActivities());
     }
   };
 
@@ -86,6 +106,19 @@ const CreateActivity = (props: Props) => {
             value={city}
             onChange={e => setCity(e.target.value)}
             placeholder="Enter city"
+           />
+        </div>
+
+        <div className='w-full flex justify-between gap-4'>
+          <label htmlFor="image">Image: </label>
+          <input 
+            type="file"
+            accept='image/*'
+            id="image"
+            name="image"
+            src={image}
+            onChange={handleImageChange}
+            placeholder="Add image"
            />
         </div>
 

@@ -1,8 +1,8 @@
 export interface IActivity {
     id?: string
-    title: string | null;
+    title: string;
     description: string | null;
-    city: string | null;
+    city: string;
     image: string | null;
     date: string;
     dateList: any[];

@@ -1,15 +1,15 @@
 "use client"
 
-import { RootState, store, useAppDispatch } from './redux/store'
-import { Provider } from 'react-redux';
-
-import Image from 'next/image'
+import Header from './components/Header';
 import Main from './components/Main/Main'
+import SignInComponent from './signin/page';
+import { useUser } from '@clerk/nextjs'
 
 export default function Home() {
-  
-
   return (
+    <>
+    <Header />
     <Main />
+    </>
   )
 }
