@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { UserButton } from "@clerk/nextjs";
 
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +10,6 @@ import { RootState, useAppDispatch } from '@/app/redux/store';
 import CreateActivity from '../CreateActivity';
 import ActivityList from '../ActivityList';
 import Link from 'next/link';
-import Select, { components } from 'react-select';
 
 type Props = {}
 
@@ -31,13 +29,7 @@ const Main = (props: Props) => {
 
   return (
     <div>
-      Main Content 
-      <UserButton afterSignOutUrl="/signin"/>
-      <hr />
-
       <CreateActivity />
-      <Link href={'/myownactivities'}>My Activities</Link>
-      <br />
       <Link href={'/activities'}>All Activities</Link>
       <ActivityList />
     </div>

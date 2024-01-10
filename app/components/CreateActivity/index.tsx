@@ -4,15 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchActivities, uploadActivity } from '@/app/redux/slices/activitySlice';
 import { RootState, useAppDispatch } from '@/app/redux/store';
 import { IActivity } from '@/app/types/types';
-
+import Select, { components } from 'react-select';
+import { options } from '@/app/utils/citiesList';
+import { optionsCategory } from '@/app/utils/categoryList';
 
 type Props = {};
 
 const CreateActivity = (props: Props) => {
   const dispatch = useAppDispatch();
-
+  const { ClearIndicator } = components;
+  
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [category, seCategory] = useState('');
   const [city, setCity] = useState('');
   const [image, setImage] = useState('');
   const [date, setDate] = useState('');
@@ -46,6 +50,7 @@ const CreateActivity = (props: Props) => {
     const activity: IActivity = {
         title,
         description,
+        category,
         city,
         image,
         date,
@@ -98,15 +103,29 @@ const CreateActivity = (props: Props) => {
         </div>
 
         <div className='w-full flex justify-between gap-4'>
+          <label htmlFor="description">category: </label>
+          <Select 
+            defaultValue={null}
+            options={optionsCategory}
+            onChange={(e: any) => seCategory(e.label.toLowerCase())}
+            components={{ ClearIndicator }}
+            isClearable
+            placeholder="City"
+            className='w-2/3'
+          />
+        </div>
+
+        <div className='w-full flex justify-between gap-4'>
           <label htmlFor="city">city: </label>
-          <input 
-            type="text"
-            id="city"
-            name="city"
-            value={city}
-            onChange={e => setCity(e.target.value)}
-            placeholder="Enter city"
-           />
+          <Select 
+            defaultValue={null}
+            options={options}
+            onChange={(e: any) => setCity(e.label.toLowerCase())}
+            components={{ ClearIndicator }}
+            isClearable
+            placeholder="City"
+            className='w-2/3'
+          />
         </div>
 
         <div className='w-full flex justify-between gap-4'>
