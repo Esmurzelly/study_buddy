@@ -1,4 +1,4 @@
-import { IActivity, InputComment } from "@/app/types/types";
+import { IActivity, IBookmark, InputComment } from "@/app/types/types";
 import prisma from "@/app/utils/client";
 import { auth } from "@clerk/nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -60,51 +60,68 @@ export async function GET(req: Response, { params }: Props) {
 };
 
 export async function PUT(req: any, { params }: Props) {
+    const { id } = params;
+    const { userId } = auth();
+    const { method } = req;
     let parsedReqBody = await new Response(req.body).json();
 
-    if (req.method === 'PUT') {
-        const { method } = req;
-        const {id} = params;
+    try {
+        const activity = await prisma.activity.findUnique({
+            where: {
+                id: String(id),
+            },
+        });
 
-        if (method !== 'PUT') {
-            return NextResponse.json({ message: 'Unsupported method' });
+        if (!activity) {
+            return NextResponse.json({ message: 'Activity not found' });
         }
 
-        try {
-            const activity = await prisma.activity.findUnique({
-                where: {
-                    id: String(id),
-                },
-            });
-
-            if (!activity) {
-                return NextResponse.json({ message: 'Activity not found' });
-            }
-
-            if (parsedReqBody.data.action == 'like') {
-                activity.likes += 1;
-              } else if (parsedReqBody.data.action == 'dislike') {
-                activity.dislikes += 1;
-              } else {
-                return NextResponse.json({ message: 'Invalid action' });
-              }
-
-            const updatedActivity = await prisma.activity.update({
-                where: {
-                    id: String(id),
-                },
-                data: {
-                    likes: activity.likes,
-                    dislikes: activity.dislikes,
-                },
-            });
-
-            return NextResponse.json({ activity: updatedActivity });
-        } catch (error) {
-            console.error('Error managing likes/dislikes:', error);
-            return NextResponse.json({ message: 'Internal server error' });
+        if (parsedReqBody.data.action == 'like') {
+            activity.likes += 1;
+        } else if (parsedReqBody.data.action == 'dislike') {
+            activity.dislikes += 1;
         }
+
+        //    else if (parsedReqBody.data.action == 'addBookmark') {
+        //     console.log('userId addBookmark is', userId);
+        //     console.log('activityId addBookmark is', id);
+        //     const updateBookmark = await prisma.bookmark.create({
+        //         data: {
+        //             // @ts-ignore
+        //             userId: userId,
+        //             activityId: id
+        //         },
+        //     });
+        //     console.log('added bookmark')
+        //     return NextResponse.json({ updateBookmark });
+        //   }
+        //   else if (parsedReqBody.data.action == 'removeBookmark') {
+        //     const updateBookmark = await prisma.bookmark.delete({
+        //         where: {
+        //             id,
+        //         },
+        //     });
+        //     console.log('deleted bookmark')
+        //     return NextResponse.json({ updateBookmark });
+        //   } 
+
+        else {
+            return NextResponse.json({ message: 'Invalid action' });
+        }
+
+        const updatedActivity = await prisma.activity.update({
+            where: {
+                id: String(id),
+            },
+            data: {
+                likes: activity.likes,
+                dislikes: activity.dislikes,
+            },
+        });
+
+        return NextResponse.json({ activity: updatedActivity });
+    } catch (error) {
+        console.error('Error managing likes/dislikes:', error);
+        return NextResponse.json({ message: 'Internal server error' });
     }
-
-    return NextResponse.json({ message: 'Method Not Allowed' });
 }

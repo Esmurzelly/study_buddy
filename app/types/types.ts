@@ -15,6 +15,12 @@ export interface IActivity {
     userId?: string
 }
 
+export interface IBookmark {
+    id?: string
+    userId: string | null
+    activityId: string | null
+}
+
 export interface InputComment {
     content: string
     createdAt: Date

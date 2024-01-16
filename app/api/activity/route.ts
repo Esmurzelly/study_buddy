@@ -2,9 +2,9 @@ import { IActivity, InputComment } from "@/app/types/types";
 import prisma from "@/app/utils/client";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import multer from "multer";
+// import multer from "multer";
 
-const upload = multer({ dest: 'uploads/' });
+// const upload = multer({ dest: 'uploads/' });
 
 export const config = {
   api: {
@@ -22,7 +22,7 @@ export async function POST(req: Response) {
 
         const { title, description, category, city, image, date, dateList, likes, dislikes, comments, createdAt, updatedAt }: IActivity = await req.json();
 
-        if(!title || !description || !city || !date) {
+        if(!title || !description || !city) {
             return NextResponse.json({ error: "Missing fields"} , {status: 400 })
         };
 
@@ -48,7 +48,7 @@ export async function POST(req: Response) {
             }
         });
 
-        console.log('activity element', activity);
+        console.log('activity created element', activity);
 
         return NextResponse.json(activity);
     } catch (error) {

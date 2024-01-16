@@ -14,7 +14,7 @@ const DeleteButon = ({ id }: Props) => {
   const handleDeleteActivity = async () => {
     await dispatch(deleteActivities(id));
     dispatch(fetchActivities());
-    router.back();
+    router.push(`/`);
   }
 
   return (

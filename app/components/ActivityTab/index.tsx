@@ -4,13 +4,12 @@ import { IActivity } from '@/app/types/types';
 import DeleteButton from '../DeleteButton';
 import axios from 'axios';
 import { HandThumbUpIcon, HandThumbDownIcon } from '@heroicons/react/24/solid'
-
+import Moment from 'react-moment';
 
 const ActivityTab = ({ id, city, comments, category, date, dateList, description, image, likes, dislikes, title, createdAt, updatedAt }: IActivity) => {
-
-  function capitalizeFirstLetter(city: string) {
-    return city.charAt(0).toUpperCase() + city.slice(1);
-}
+  // const capitalizeFirstLetter = (city: string) => {
+  //   return city.charAt(0).toUpperCase() + city.slice(1);
+  // }
 
   return (
     <div className='w-full border border-red-700 p-3'>
@@ -24,6 +23,8 @@ const ActivityTab = ({ id, city, comments, category, date, dateList, description
         <li>likes: {likes}</li>
         <li>dislikes: {dislikes}</li>
         <li>date: {date}</li>
+        <li>created at: <Moment format="YYYY/MM/DD">{createdAt}</Moment></li>
+        <li>updated at: <Moment format="YYYY/MM/DD">{updatedAt}</Moment></li>
       </ul>
     </div>
 

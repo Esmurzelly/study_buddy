@@ -1,19 +1,19 @@
+"use client"
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchActivities, uploadActivity } from '@/app/redux/slices/activitySlice';
 import { RootState, useAppDispatch } from '@/app/redux/store';
 import { IActivity } from '@/app/types/types';
-import Select, { components } from 'react-select';
-import { options } from '@/app/utils/citiesList';
-import { optionsCategory } from '@/app/utils/categoryList';
+import { optionsCategory, optionsCity } from '@/app/utils/categoriesOption';
+import SelectInput from '../SelectInput';
 
 type Props = {};
 
 const CreateActivity = (props: Props) => {
   const dispatch = useAppDispatch();
-  const { ClearIndicator } = components;
-  
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, seCategory] = useState('');
@@ -22,7 +22,7 @@ const CreateActivity = (props: Props) => {
   const [date, setDate] = useState('');
 
   const [dateList, setDateList] = useState([]);
-  const [likes, setLikes] = useState(0);
+  // const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
 
   const handleImageChange = (e: any) => {
@@ -33,31 +33,31 @@ const CreateActivity = (props: Props) => {
 
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-        reader.readAsDataURL(selectedFile);
+      reader.readAsDataURL(selectedFile);
     }
 
     reader.onload = (readerEvent: any) => {
-        if (selectedFile.type.includes("image")) {
-          setImage(readerEvent.target.result);
-        }
+      if (selectedFile.type.includes("image")) {
+        setImage(readerEvent.target.result);
+      }
     };
-};
+  };
 
 
   const handleFomSubmit = async (e: any) => {
     e.preventDefault();
 
     const activity: IActivity = {
-        title,
-        description,
-        category,
-        city,
-        image,
-        date,
-        dateList,
-        likes: 0,
-        dislikes: 0,
-        comments,
+      title,
+      description,
+      category,
+      city,
+      image,
+      date,
+      dateList,
+      likes: 0,
+      dislikes: 0,
+      comments,
     };
 
     try {
@@ -80,29 +80,29 @@ const CreateActivity = (props: Props) => {
 
         <div className='w-full flex justify-between gap-4'>
           <label htmlFor="title">title: </label>
-          <input 
+          <input
             type="text"
             id="title"
             name="title"
             value={title}
             onChange={e => setTitle(e.target.value)}
             placeholder="Enter Title"
-           />
+          />
         </div>
 
         <div className='w-full flex justify-between gap-4'>
           <label htmlFor="description">description: </label>
-          <input 
+          <input
             type="text"
             id="description"
             name="description"
             value={description}
             onChange={e => setDescription(e.target.value)}
             placeholder="Enter description"
-           />
+          />
         </div>
 
-        <div className='w-full flex justify-between gap-4'>
+        {/* <div className='w-full flex justify-between gap-4'>
           <label htmlFor="description">category: </label>
           <Select 
             defaultValue={null}
@@ -110,12 +110,18 @@ const CreateActivity = (props: Props) => {
             onChange={(e: any) => seCategory(e.label.toLowerCase())}
             components={{ ClearIndicator }}
             isClearable
-            placeholder="City"
+            placeholder="Category"
             className='w-2/3'
           />
-        </div>
+        </div> */}
 
-        <div className='w-full flex justify-between gap-4'>
+        <SelectInput
+          name='category'
+          options={optionsCategory}
+          setField={seCategory}
+        />
+
+        {/* <div className='w-full flex justify-between gap-4'>
           <label htmlFor="city">city: </label>
           <Select 
             defaultValue={null}
@@ -126,11 +132,17 @@ const CreateActivity = (props: Props) => {
             placeholder="City"
             className='w-2/3'
           />
-        </div>
+        </div> */}
+
+        <SelectInput
+          name='city'
+          options={optionsCity}
+          setField={setCity}
+        />
 
         <div className='w-full flex justify-between gap-4'>
           <label htmlFor="image">Image: </label>
-          <input 
+          <input
             type="file"
             accept='image/*'
             id="image"
@@ -138,19 +150,19 @@ const CreateActivity = (props: Props) => {
             src={image}
             onChange={handleImageChange}
             placeholder="Add image"
-           />
+          />
         </div>
 
         <div className='w-full flex justify-between gap-4'>
           <label htmlFor="date">date: </label>
-          <input 
+          <input
             type="date"
             id="date"
             name="date"
             value={date}
             onChange={e => setDate(e.target.value)}
             placeholder="Enter date"
-           />
+          />
         </div>
 
         <button className='p-2 bg-slate-500 text-white rounded-md' type='submit'>send activity</button>

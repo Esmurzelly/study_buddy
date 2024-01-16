@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux'
 import activityReducer  from './slices/activitySlice';
+import bookmarkReducer  from './slices/bookmarkSlice';
 
 export const store = configureStore({
     reducer: {
-        activity: activityReducer
+        activity: activityReducer,
+        bookmark: bookmarkReducer,
     },
 });
 

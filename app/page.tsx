@@ -8,7 +8,7 @@ import { useUser } from '@clerk/nextjs'
 export default function Home() {
   return (
     <>
-    <Header />
+    {/* <Header /> */}
     <Main />
     </>
   )

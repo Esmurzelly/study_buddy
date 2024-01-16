@@ -6,6 +6,7 @@ import { RootState, useAppDispatch } from '@/app/redux/store';
 import ActivityTab from '../components/ActivityTab';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import Header from '../components/Header';
 
 type Props = {}
 
@@ -26,6 +27,7 @@ const MyOwnActivities = (props: Props) => {
 
     return (
         <div className='flex flex-col items-center justify-center gap-3'>
+          {/* <Header /> */}
             <h1>My Activities</h1>
       
             {filteredTabs.map(activityElem => (

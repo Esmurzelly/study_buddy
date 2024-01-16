@@ -31,6 +31,12 @@ model Activity {
   userId String
 }
 
+model Bookmark {
+  id         String @id @default(cuid()) @map("_id")
+  userId     String
+  activityId String
+}
+
 model Comment {
   id         String   @id @default(cuid()) @map("_id")
   content    String
