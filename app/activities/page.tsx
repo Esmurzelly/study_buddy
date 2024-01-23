@@ -20,8 +20,12 @@ const ActivitiesPage = (props: Props) => {
     const { ClearIndicator } = components;
     const router = useRouter();
 
-    const getActivities = () => {
-        dispatch(fetchActivities());
+    const getActivities = async () => {
+        try {
+            await dispatch(fetchActivities());
+        } catch (error) {
+            console.error('Error fetching activities:', error);
+        }
     }
 
     useEffect(() => {
@@ -86,9 +90,14 @@ const ActivitiesPage = (props: Props) => {
 
             <button onClick={() => router.back()}>Back</button>
 
-            {searchedActivities.map(activityElem => (
-                <ActivityTab key={activityElem.id} {...activityElem} />
-            ))}
+            {searchedActivities.length > 0 ? (
+                searchedActivities.map(activityElem => (
+                    <ActivityTab key={activityElem.id} {...activityElem} />
+                ))
+            ) : (
+                <p>No activities found. {error}</p>
+            )}
+            
 
             {/* <button onClick={() => router.back()}>Back</button> */}
         </div>

@@ -13,8 +13,8 @@ import Header from '../components/Header'
 type Props = {}
 
 const Bookmarks = (props: Props) => {
-  const { bookmarks, error, loading } = useSelector((state: RootState) => state.bookmark);
-  const { activity } = useSelector((state: RootState) => state.activity);
+  const { bookmarks, error: errorBookmark, loading: loadingBookmark } = useSelector((state: RootState) => state.bookmark);
+  const { activity, error: errorActivity, loading: loadingActivity } = useSelector((state: RootState) => state.activity);
   
   const dispatch = useDispatch();
   const router = useRouter();
@@ -24,12 +24,20 @@ const Bookmarks = (props: Props) => {
     dispatch(fetchBookmarks())
   }, [dispatch]);
 
-  if (loading) {
+  if (errorBookmark) {
+    return <h1>Error...</h1>
+  }
+
+  if (loadingBookmark) {
     return <h1>Loading...</h1>
   }
 
-  if (error) {
+  if (errorActivity) {
     return <h1>Error...</h1>
+  }
+
+  if (loadingActivity) {
+    return <h1>Loading...</h1>
   }
 
   const filteredBookmarks = bookmarks.filter(bookmarkItem => bookmarkItem.userId === user?.id)

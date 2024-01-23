@@ -7,17 +7,28 @@ import { useRouter } from 'next/navigation';
 import { RootState, useAppDispatch } from '@/app/redux/store';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { UserPlusIcon } from '@heroicons/react/24/solid';
+import AnotherProfile from '../components/AnotherProfile';
 
 type Props = {}
 
 const Profile = (props: Props) => {
     const { bookmarks } = useSelector((state: RootState) => state.bookmark);
     const [showUsersList, setShowUsersList] = useState(false);
+
+    const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+    const [showAnotherUserDetails, setShowAnotherUserDetails] = useState(false);
+    
     const [usersList, setUsersList] = useState<any>();
     const { user } = useUser();
     const router = useRouter();
 
     const handleShowUsersList = () => setShowUsersList(!showUsersList);
+    
+    const handleShowAnotherUserDetails = (userId: string) => {
+        setSelectedUserId(userId);
+        setShowAnotherUserDetails(!showAnotherUserDetails);
+    }
 
     const getAllUsers = async () => {
         const { data } = await axios.get('/api/users');
@@ -28,7 +39,14 @@ const Profile = (props: Props) => {
         getAllUsers();
     }, []);
 
-    console.log('usersList', usersList)
+    console.log('usersList', usersList);
+
+    const handleMakeFriends = (user: any) => {
+        console.log(user)
+    }
+
+    const userBookmarks = bookmarks.filter(el => el.userId === user?.id)
+
 
     return (
         <div className='w-full flex flex-col items-start'>
@@ -38,8 +56,8 @@ const Profile = (props: Props) => {
                 <UserButton afterSignOutUrl="/signin" />
                 <div>
                     <p>Name: {user?.fullName}</p>
-                    <p>friends: 0</p>
-                    {bookmarks && <p>subscriptions: {bookmarks.length}</p>}
+                    {/* <p>friends: 0</p> */}
+                    {bookmarks && <p>subscriptions: {userBookmarks.length}</p>}
                 </div>
 
                 <Link href={'/bookmarks'}>Bookmarks</Link>
@@ -52,7 +70,22 @@ const Profile = (props: Props) => {
 
                 {showUsersList && (
                     <div className='flex flex-col items-start'>
-                        {usersList?.map((user: any) => <span>{user.firstName}</span>)}
+                        {usersList?.map((user: any) =>
+                        
+                        <span key={user.id} className='flex items-center gap-1 justify-center'>
+                            <span onClick={() => handleShowAnotherUserDetails(user.id)}>{user.firstName}</span>
+                            <UserPlusIcon onClick={() => handleMakeFriends(user)} className='w-5' />
+
+                            {showAnotherUserDetails && selectedUserId === user.id && (
+                                <AnotherProfile
+                                    id={user.id}
+                                    firstName={user.firstName}
+                                    lastName={user.lastName}
+                                    imageUrl={user.imageUrl}
+                                    setShowAnotherUserDetails={setShowAnotherUserDetails}
+                                />
+                            )}
+                        </span>)}
                     </div>
                 )}
             </div>
