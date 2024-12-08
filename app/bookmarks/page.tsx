@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react'
 import ActivityTab from '../components/ActivityTab'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../redux/store'
+import { AppDispatch, RootState } from '../redux/store'
 import { fetchBookmarks } from '../redux/slices/bookmarkSlice'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -13,30 +13,22 @@ import Header from '../components/Header'
 type Props = {}
 
 const Bookmarks = (props: Props) => {
-  const { bookmarks, error: errorBookmark, loading: loadingBookmark } = useSelector((state: RootState) => state.bookmark);
   const { activity, error: errorActivity, loading: loadingActivity } = useSelector((state: RootState) => state.activity);
+  const { bookmarks, error: errorBookmark, loading: loadingBookmark } = useSelector((state: RootState) => state.bookmark);
   
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
   const {user} = useUser();
 
   useEffect(() => {
-    dispatch(fetchBookmarks())
+    dispatch(fetchBookmarks());
   }, [dispatch]);
 
-  if (errorBookmark) {
+  if (errorBookmark || errorActivity) {
     return <h1>Error...</h1>
   }
 
-  if (loadingBookmark) {
-    return <h1>Loading...</h1>
-  }
-
-  if (errorActivity) {
-    return <h1>Error...</h1>
-  }
-
-  if (loadingActivity) {
+  if (loadingBookmark || loadingActivity) {
     return <h1>Loading...</h1>
   }
 

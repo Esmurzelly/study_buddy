@@ -2,13 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { IActivity } from "@/app/types/types";
 import axios from 'axios';
-
-interface ActivityState {
-    activity: IActivity[];
-    loading: boolean;
-    error: string | null;
-    selectedCity: string | null;
-};
+import { ActivityState } from "@/app/types/types";
 
 const initialState: ActivityState = {
     activity: [],

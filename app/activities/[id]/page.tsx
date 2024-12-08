@@ -98,6 +98,7 @@ const ActivityDetails = (props: Props) => {
       <h1>Activity Detail Page: {id}</h1>
       <p>title: {activityDetail?.title}</p>
       <p>description: {activityDetail?.description}</p>
+      <p>city: {activityDetail?.city}</p>
       {activityDetail.category && <p>category: {activityDetail.category}</p>}
       {activityDetail.image && <img width={200} src={activityDetail?.image || undefined} alt="image" />}
       <p>likes: {activityDetail?.likes}</p>

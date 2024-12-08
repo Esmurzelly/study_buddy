@@ -22,7 +22,6 @@ const CreateActivity = (props: Props) => {
   const [date, setDate] = useState('');
 
   const [dateList, setDateList] = useState([]);
-  // const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
 
   const handleImageChange = (e: any) => {
@@ -101,38 +100,12 @@ const CreateActivity = (props: Props) => {
             placeholder="Enter description"
           />
         </div>
-
-        {/* <div className='w-full flex justify-between gap-4'>
-          <label htmlFor="description">category: </label>
-          <Select 
-            defaultValue={null}
-            options={optionsCategory}
-            onChange={(e: any) => seCategory(e.label.toLowerCase())}
-            components={{ ClearIndicator }}
-            isClearable
-            placeholder="Category"
-            className='w-2/3'
-          />
-        </div> */}
-
+        
         <SelectInput
           name='category'
           options={optionsCategory}
           setField={seCategory}
         />
-
-        {/* <div className='w-full flex justify-between gap-4'>
-          <label htmlFor="city">city: </label>
-          <Select 
-            defaultValue={null}
-            options={options}
-            onChange={(e: any) => setCity(e.label.toLowerCase())}
-            components={{ ClearIndicator }}
-            isClearable
-            placeholder="City"
-            className='w-2/3'
-          />
-        </div> */}
 
         <SelectInput
           name='city'

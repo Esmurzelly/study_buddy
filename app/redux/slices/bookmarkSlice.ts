@@ -1,13 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { IBookmark } from "@/app/types/types";
+import { IBookmark, BookmarkState } from "@/app/types/types";
 import axios from 'axios';
 
-interface BookmarkState {
-    bookmarks: IBookmark[];
-    loading: boolean;
-    error: string | null;
-};
 
 const initialState: BookmarkState = {
     bookmarks: [],

@@ -5,8 +5,7 @@ import ActivityTab from '../ActivityTab';
 import Link from 'next/link';
 
 
-type Props = {
-}
+type Props = {}
 
 const ActivityList = (props: Props) => {
   const { activity, error, loading } = useSelector((state: RootState) => state.activity);

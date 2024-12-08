@@ -27,19 +27,11 @@ const ActivityTab = ({ id, city, comments, category, date, dateList, description
             <div className='flex items-center gap-1'><HandThumbDownIcon className='w-5' />{dislikes}</div>
           </span>
         </li>
+        {/* <li>created at: <Moment format="YYYY/MM/DD">{createdAt}</Moment></li> */}
         
           <Link href={`/activities/${id}`} className='p-2 bg-green-600 rounded-md text-white'>Open activity</Link>
-        
-        {/* <li>likes: {likes}</li>
-        <li>dislikes: {dislikes}</li> */}
-        {/* <li>date: {date}</li> */}
-        {/* <li>created at: <Moment format="YYYY/MM/DD">{createdAt}</Moment></li> */}
-        {/* <li>updated at: <Moment format="YYYY/MM/DD">{updatedAt}</Moment></li> */}
       </ul>
-      
     </div>
-
-
   )
 }
 
